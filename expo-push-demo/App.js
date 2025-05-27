@@ -57,7 +57,7 @@ async function registerForPushNotificationsAsync() {
 // Function to send test notification to your backend
 async function sendTestNotification(expoPushToken) {
   try {
-    const backendUrl = process.env.EXPO_BASE_URL || 'http://192.168.10.62:3000'; // your pc ip address + app server port
+    const backendUrl = 'http://192.168.0.55:3000';
     console.log('=== DEBUG INFO ===');
     console.log('Backend URL:', backendUrl);
     console.log('Expo Push Token:', expoPushToken);

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "install:all": "npm install && cd backend && npm install && cd ../expo-push-demo && npm install",
-    "dev": "concurrently \"npm run backend\" \"npm run expo --clear\"",
+    "dev": "concurrently \"npm run backend\" \"npm run expo\"",
     "backend": "cd backend && npm run dev",
     "expo": "cd expo-push-demo && npx expo start",
     "build:android": "cd expo-push-demo && eas build --platform android --profile development",
@@ -23,14 +23,14 @@
     "push-notifications",
     "email"
   ],
-  "author": "Samuel Umoren",
+  "author": "Your Name",
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Umoren/knock-notifications.git"
+    "url": "git+https://github.com/yourusername/knock-notifications.git"
   },
   "engines": {
     "node": ">=18.0.0",
