@@ -43,7 +43,7 @@ async function registerForPushNotificationsAsync() {
     }
 
     // Get the Expo push token
-    const projectId = process.env.EXPO_PUBLIC_PROJECT_ID || '7d7daf77-7449-49e4-b5fc-722424fa6713';
+    const projectId = process.env.EXPO_PUBLIC_PROJECT_ID;
 
     token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
     console.log('Expo Push Token:', token);
@@ -57,7 +57,7 @@ async function registerForPushNotificationsAsync() {
 // Function to send test notification to your backend
 async function sendTestNotification(expoPushToken) {
   try {
-    const backendUrl = 'http://192.168.0.55:3000';
+    const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
     console.log('=== DEBUG INFO ===');
     console.log('Backend URL:', backendUrl);
     console.log('Expo Push Token:', expoPushToken);
