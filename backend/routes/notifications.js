@@ -278,4 +278,77 @@ router.post('/test-all', async (req, res) => {
     }
 });
 
+// Edit a scheduled notification (cancel + recreate)
+router.put('/edit-notification', async (req, res) => {
+    try {
+        const {
+            workflowKey,
+            cancellationKey,
+            userId,
+            delayMinutes,
+            title,
+            body,
+            data = {},
+            type = 'push' // 'push' or 'email'
+        } = req.body;
+
+        const knock = req.app.locals.knock;
+
+        // Step 1: Cancel the existing notification
+        try {
+            await knock.workflows.cancel(workflowKey, cancellationKey);
+        } catch (cancelError) {
+            console.warn('Could not cancel existing notification:', cancelError.message);
+            // Continue anyway - maybe it already executed
+        }
+
+        // Step 2: Create new notification
+        const newCancellationKey = `${type}-${userId}-${Date.now()}`;
+
+        let response;
+        if (type === 'push') {
+            response = await knock.workflows.trigger('delayed-push-notification', {
+                recipients: [userId],
+                data: {
+                    delayDuration: `${delayMinutes}m`,
+                    title: title,
+                    body: body,
+                    customData: data
+                },
+                cancellation_key: newCancellationKey
+            });
+        } else if (type === 'email') {
+            const { userEmail, userName } = req.body;
+            const recipients = userEmail ? [
+                {
+                    id: userId,
+                    email: userEmail,
+                    name: userName
+                }
+            ] : [userId];
+
+            response = await knock.workflows.trigger('delayed-email-reminder', {
+                recipients,
+                data: {
+                    delayDuration: `${delayMinutes}m`,
+                    subject: title,
+                    message: body,
+                    userName: userName
+                },
+                cancellation_key: newCancellationKey
+            });
+        }
+
+        res.json({
+            success: true,
+            workflow_run_id: response.workflow_run_id,
+            cancellation_key: newCancellationKey,
+            message: `${type} notification edited and rescheduled for ${delayMinutes} minutes`
+        });
+    } catch (error) {
+        console.error('Error editing notification:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 export default router;

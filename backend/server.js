@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import Knock from '@knocklabs/node';
 import notificationRoutes from './routes/notifications.js';
+import notesRoutes from './routes/notes.js';
 
 // Load environment variables
 dotenv.config();
@@ -24,6 +25,7 @@ app.locals.knock = knock;
 
 // Routes
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/notes', notesRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
