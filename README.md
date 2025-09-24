@@ -2,6 +2,10 @@
 
 Express.js API that publishes user events to Knock.app for intelligent notification orchestration.
 
+## 🎥 Video Walkthrough
+
+**[Watch the complete setup and demo](https://www.youtube.com/watch?v=eMGMVv8nZt4)** - Step-by-step video explaining the architecture, code walkthrough, and Knock dashboard configuration.
+
 ## Architecture
 
 **Event Publisher Pattern**: API publishes classified events to Knock. Knock workflows handle all notification logic including conditional delivery and smart scheduling based on user profile data.
