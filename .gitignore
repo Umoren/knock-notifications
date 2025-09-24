@@ -80,3 +80,6 @@ build/
 **/*.p12
 **/*.key
 **/*.mobileprovision
+
+app.json
+service-account-key.json
